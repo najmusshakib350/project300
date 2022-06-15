@@ -19,11 +19,13 @@ module.exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   const allProductName = Items.map((item) => {
     return item.product.name;
   });
+ 
   //Product Id
   const allProductId = Items.map((item) => {
     return item.product._id;
   });
-
+  console.log("Hello i am allproductId");
+  console.log(allProductId)
   const total_amount = Items.map((item) => item.count * item.price).reduce(
     (a, b) => a + b,
     0
@@ -80,13 +82,13 @@ module.exports.getCheckoutSession = catchAsync(async (req, res, next) => {
           unit_amount: total_amount * 100,
         },
         //client code added start
-        quantity: allProductId,
+        quantity: allProductId.length,
         //tax_rates: [process.env.TAX_ID]
         //client code end
       },
     ],
-    mode: "payment",
   });
+  console.log(session)
   res.status(200).json({
     status: "success",
     session,
