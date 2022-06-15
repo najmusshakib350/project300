@@ -40,34 +40,34 @@ module.exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     mode: 'payment',
     //Client code added
      // Adding the shipping prices
-     shipping_address_collection: {
-      allowed_countries: ['US', 'CA'],
-    },
-    shipping_options: [
-      {
-        shipping_rate_data: {
-          type: 'fixed_amount',
-          fixed_amount: {
-            amount: 900,
-            currency: 'usd',
-          },
-          display_name: 'Regular shipping',
-          // Delivers between 5-7 business days
-          delivery_estimate: {
-            minimum: {
-              unit: 'business_day',
-              value: 5,
-            },
-            maximum: {
-              unit: 'business_day',
-              value: 7,
-            },
-          }
-        }
-      },
+    //  shipping_address_collection: {
+    //   allowed_countries: ['US', 'CA'],
+    // },
+    // shipping_options: [
+    //   {
+    //     shipping_rate_data: {
+    //       type: 'fixed_amount',
+    //       fixed_amount: {
+    //         amount: 900,
+    //         currency: 'usd',
+    //       },
+    //       display_name: 'Regular shipping',
+    //       // Delivers between 5-7 business days
+    //       delivery_estimate: {
+    //         minimum: {
+    //           unit: 'business_day',
+    //           value: 5,
+    //         },
+    //         maximum: {
+    //           unit: 'business_day',
+    //           value: 7,
+    //         },
+    //       }
+    //     }
+    //   },
       
-    ],
-    allow_promotion_codes: true,
+    // ],
+    // allow_promotion_codes: true,
     //client code end
     customer_email: req.user.email,
     client_reference_id: allProductId.join(" "),
@@ -88,7 +88,7 @@ module.exports.getCheckoutSession = catchAsync(async (req, res, next) => {
       },
     ],
   });
-  console.log(session)
+ // console.log(session)
   res.status(200).json({
     status: "success",
     session,
