@@ -36,6 +36,37 @@ module.exports.getCheckoutSession = catchAsync(async (req, res, next) => {
      success_url:`http://localhost:3000/my/product`,
     cancel_url: `http://localhost:3000/`,
     mode: 'payment',
+    //Client code added
+     // Adding the shipping prices
+     shipping_address_collection: {
+      allowed_countries: ['US', 'CA'],
+    },
+    shipping_options: [
+      {
+        shipping_rate_data: {
+          type: 'fixed_amount',
+          fixed_amount: {
+            amount: 900,
+            currency: 'usd',
+          },
+          display_name: 'Regular shipping',
+          // Delivers between 5-7 business days
+          delivery_estimate: {
+            minimum: {
+              unit: 'business_day',
+              value: 5,
+            },
+            maximum: {
+              unit: 'business_day',
+              value: 7,
+            },
+          }
+        }
+      },
+      
+    ],
+    allow_promotion_codes: true,
+    //client code end
     customer_email: req.user.email,
     client_reference_id: allProductId.join(" "),
     line_items: [
@@ -48,7 +79,10 @@ module.exports.getCheckoutSession = catchAsync(async (req, res, next) => {
           },
           unit_amount: total_amount * 100,
         },
-        quantity: 1,
+        //client code added start
+        quantity: allProductId,
+        tax_rates: [process.env.TAX_ID]
+        //client code end
       },
     ],
     mode: "payment",

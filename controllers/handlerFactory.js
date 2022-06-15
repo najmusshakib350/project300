@@ -5,7 +5,8 @@ const catchasync = require("./../utils/catchasync");
 //create
 module.exports.createOne = function (Model) {
   return catchasync(async function (req, res, next) {
-
+    console.log("Heloo request")
+    console.log(req.body)
     const document = await Model.create(req.body);
     res.status(201).json({
       status: "success",
