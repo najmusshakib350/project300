@@ -81,7 +81,7 @@ module.exports.getCheckoutSession = catchAsync(async (req, res, next) => {
         },
         //client code added start
         quantity: allProductId,
-        tax_rates: [process.env.TAX_ID]
+        //tax_rates: [process.env.TAX_ID]
         //client code end
       },
     ],
