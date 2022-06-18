@@ -5,12 +5,12 @@ const profileSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  phone: String,
-  address1: String,
-  address2: String,
+  //phone: String,
+  line1: String,
+  line2: String,
   city: String,
   state: String,
-  postcode: Number,
+  postal_code: Number,
   country: String,
 });
 

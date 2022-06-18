@@ -6,6 +6,8 @@ const Profile = require("./../models/profile");
 const Purchase = require("./../models/purchaseItems");
 const factory = require("./handlerFactory");
 const Email = require("./../utils/email");
+const _ = require("lodash");
+
 
 module.exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   
@@ -139,17 +141,39 @@ module.exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 
 const createPurchaseCheckout = async (session) => {
 
-  const productStr = session.client_reference_id;
-  const product = productStr.split(" ");
-  // const user = (await User.findOne({ email: session.customer_email })).id;
-  const user = (await User.findOne({ email: session.customer_details.email }));
-  const userId=user._id;
-  // const price = session.line_items[0].amount / 100;
-  const price = session.amount_total / 100;
-  await Purchase.create({ product,user:userId, price });
-  await Cart.deleteMany({user:userId});
-   //3) Send it to user's email
    try {
+    //Customer profile set
+ const user_Id = req.user._id;
+ const userProfile = _.pick(req.body, [
+   "line1",
+   "line2",
+   "city",
+   "state",
+   "postal_code",
+   "country",
+ ]);
+ userProfile["user"] = user_Id;
+ let profile = await Profile.findOne({ user: user_Id });
+ if (profile) {
+   await Profile.updateOne({ user: user_Id }, userProfile);
+ } else {
+   profile = new Profile(userProfile);
+   await profile.save();
+ }
+//Customer profile set
+
+
+
+ const productStr = session.client_reference_id;
+ const product = productStr.split(" ");
+ // const user = (await User.findOne({ email: session.customer_email })).id;
+ const user = (await User.findOne({ email: session.customer_details.email }));
+ const userId=user._id;
+ // const price = session.line_items[0].amount / 100;
+ const price = session.amount_total / 100;
+ await Purchase.create({ product,user:userId, price });
+ await Cart.deleteMany({user:userId});
+   //3) Send it to user's email
     await new Email(user, '').sendPurchaseEmail();
   } catch (err) {
   }

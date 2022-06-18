@@ -4,7 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const userRouter = require("./routers/userroutes");
 const cartRouter = require("./routers/cartroutes");
-const profileRouter = require("./routers/profileroutes");
+// const profileRouter = require("./routers/profileroutes");
 const paymentRouter = require("./routers/paymentroutes");
 const { webhookCheckout } = require("./controllers/paymentcontroller");
 
@@ -33,7 +33,7 @@ app.use("/api/user/", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/reviews", reviewRouter);
 app.use("/api/cart/", cartRouter);
-app.use("/api/profile", profileRouter);
+// app.use("/api/profile", profileRouter);
 app.use("/api/payment/", paymentRouter);
 
 app.all("*", (req, res, next) => {
