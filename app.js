@@ -7,6 +7,10 @@ const cartRouter = require("./routers/cartroutes");
 // const profileRouter = require("./routers/profileroutes");
 const paymentRouter = require("./routers/paymentroutes");
 const { webhookCheckout } = require("./controllers/paymentcontroller");
+// const {
+
+//  createPurchaseCheckoutt
+// } = require("./controllers/paymentcontroller");
 
 const express = require("express");
 const AppError = require("./utils/apperror");
@@ -17,7 +21,7 @@ const reviewRouter = require("./routers/reviewroutes");
 const app = express();
 //webhook-checkout
 app.post("/webhook-checkout",express.raw({type: 'application/json'}),webhookCheckout);
-
+// app.post('/dfc',express.json(),createPurchaseCheckoutt)
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 

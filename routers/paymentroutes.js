@@ -6,6 +6,7 @@ const {
   getAllPurchase,
   updatePurchase,
   deletePurchase,
+
   // createPurchaseCheckoutt
 } = require("./../controllers/paymentcontroller");
 const { protect, restrictTo } = require("../controllers/authController");
@@ -14,7 +15,7 @@ const router = express.Router();
 router.use(protect);
 
 router.post("/checkout-session", getCheckoutSession);
-// router.route('/df').post(createPurchaseCheckoutt)
+
 
 router.use(restrictTo("admin", "user"));
 router.route("/").get(getAllPurchase).post(createPurchase);

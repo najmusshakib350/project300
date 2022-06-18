@@ -98,44 +98,62 @@ module.exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 
 
 // module.exports.createPurchaseCheckoutt=async (req,res,next) => {
-
-  
-//   let session={
-//    client_reference_id:"62aa13a21ac69054bc81de6d",
-//    customer_details:{
-//      email:"najmusshakib1997@gmail.com"
-//    },
-//    amount_total:20000
-//   }
- 
- 
- 
-//    const productStr = session.client_reference_id;
-//    const product = productStr.split(" ");
-//    // const user = (await User.findOne({ email: session.customer_email })).id;
-  
-//    const user = await User.findOne({ email: session.customer_details.email });
-//    console.log("Hello...................")
-//    console.log(product)
-//    console.log(user)
-//    const userId=user._id;
-//    // const price = session.line_items[0].amount / 100;
-//    const price = session.amount_total / 100;
-//    await Purchase.create({ product,user:userId, price });
-//    await Cart.deleteMany({user:userId});
-//     //3) Send it to user's email
-//     try {
    
-//      await new Email(user, '').sendPurchaseEmail();
-//      res.status(200).json({
-//        status: "success",
-//        message: "sent to email",
-//      });
-//    } catch (err) {
-//      res.status(500).json({
-//        message:"There was an error sending the email. Try again later"
-//      })
-//    }
+//   try {
+  
+
+//   let session=req.body.data.object;
+//   const productStr = session.client_reference_id; 
+
+//     //Customer profile set
+//  const user_Id = (await User.findOne({ email: session.customer_details.email }))._id;
+
+//  const userProfile = _.pick(session.customer_details.address, [
+//    "line1",
+//    "line2",
+//    "city",
+//    "state",
+//    "postal_code",
+//    "country",
+//  ]);
+
+// //let userProfile=session.customer_details.address;
+//  userProfile['user'] = user_Id;
+ 
+//  let profile = await Profile.findOne({ user: user_Id });
+//  if (profile) {
+//   console.log("Hello i am userProfile updated")
+//  console.log(userProfile)
+//  console.log("ending")
+//    await Profile.updateOne({ user: user_Id }, userProfile);
+//  } else {
+//   console.log("Hello i am userProfile")
+//  console.log(userProfile)
+//  console.log("ending")
+//    profile = new Profile(userProfile);
+//    await profile.save();
+//  }
+// //Customer profile set
+
+
+
+
+//  const product = productStr.split(" ");
+//  // const user = (await User.findOne({ email: session.customer_email })).id;
+//  const user = (await User.findOne({ email: session.customer_details.email }));
+//  const userId=user._id;
+//  // const price = session.line_items[0].amount / 100;
+//  const price = session.amount_total / 100;
+//  await Purchase.create({ product,user:userId, price });
+//  await Cart.deleteMany({user:userId});
+//    //3) Send it to user's email
+//     await new Email(user, '').sendPurchaseEmail();
+//   } catch (err) {
+//   }
+
+//   res.status(200).json({
+//     status:"success"
+//   })
 //  };
 
 
@@ -143,7 +161,8 @@ const createPurchaseCheckout = async (session) => {
 
    try {
     //Customer profile set
- const user_Id = req.user._id;
+ const user_Id = (await User.findOne({ email: session.customer_details.email }))._id;
+
  const userProfile = _.pick(session.customer_details.address, [
    "line1",
    "line2",
