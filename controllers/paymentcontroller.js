@@ -144,7 +144,7 @@ const createPurchaseCheckout = async (session) => {
    try {
     //Customer profile set
  const user_Id = req.user._id;
- const userProfile = _.pick(req.body, [
+ const userProfile = _.pick(session.customer_details.address, [
    "line1",
    "line2",
    "city",
