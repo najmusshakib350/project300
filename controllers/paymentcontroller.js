@@ -24,8 +24,6 @@ module.exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   const allProductId = Items.map((item) => {
     return item.product._id;
   });
-  console.log("Hello i am allproductId");
-  console.log(allProductId)
   const total_amount = Items.map((item) => item.count * item.price).reduce(
     (a, b) => a + b,
     0
@@ -35,38 +33,38 @@ module.exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
    
-     success_url:`http://localhost:3000/my/product`,
+    success_url:`http://localhost:3000/my/product`,
     cancel_url: `http://localhost:3000/`,
     mode: 'payment',
     //Client code added
      // Adding the shipping prices
-    //  shipping_address_collection: {
-    //   allowed_countries: ['US', 'CA'],
-    // },
-    // shipping_options: [
-    //   {
-    //     shipping_rate_data: {
-    //       type: 'fixed_amount',
-    //       fixed_amount: {
-    //         amount: 900,
-    //         currency: 'usd',
-    //       },
-    //       display_name: 'Regular shipping',
-    //       // Delivers between 5-7 business days
-    //       delivery_estimate: {
-    //         minimum: {
-    //           unit: 'business_day',
-    //           value: 5,
-    //         },
-    //         maximum: {
-    //           unit: 'business_day',
-    //           value: 7,
-    //         },
-    //       }
-    //     }
-    //   },
+     shipping_address_collection: {
+      allowed_countries: ['US', 'CA'],
+    },
+    shipping_options: [
+      {
+        shipping_rate_data: {
+          type: 'fixed_amount',
+          fixed_amount: {
+            amount: 900,
+            currency: 'usd',
+          },
+          display_name: 'Regular shipping',
+          // Delivers between 5-7 business days
+          delivery_estimate: {
+            minimum: {
+              unit: 'business_day',
+              value: 5,
+            },
+            maximum: {
+              unit: 'business_day',
+              value: 7,
+            },
+          }
+        }
+      },
       
-    // ],
+    ],
     // allow_promotion_codes: true,
     //client code end
     customer_email: req.user.email,
@@ -88,7 +86,7 @@ module.exports.getCheckoutSession = catchAsync(async (req, res, next) => {
       },
     ],
   });
- // console.log(session)
+ console.log(session)
   res.status(200).json({
     status: "success",
     session,
@@ -101,7 +99,7 @@ module.exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 
   
 //   let session={
-//    client_reference_id:"62a8512ca50a04acbe90503c",
+//    client_reference_id:"62aa13a21ac69054bc81de6d",
 //    customer_details:{
 //      email:"najmusshakib1997@gmail.com"
 //    },
